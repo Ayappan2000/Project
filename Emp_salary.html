@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Details</title>
+    <link rel="icon" href="https://img.pikbest.com/origin/09/22/15/304pIkbEsTTdY.png!w700wp">
+    <style>
+        h1 {
+            text-align: center;
+        }
+        body {
+            padding: 50px;
+            background-image: url("https://w0.peakpx.com/wallpaper/265/481/HD-wallpaper-nature.jpg");
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: white;
+        }
+        .container {
+            border: 3px groove black;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #cccccc;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Salary Details</h1>
+        <div class="form-group">
+            <label for="name">NAME:</label>
+            <input id="name" type="text" placeholder="Enter the name">
+        </div>
+        <div class="form-group">
+            <label for="id">ID Number:</label>
+            <input id="id" type="number" placeholder="Enter the ID">
+        </div>
+        <div class="form-group">
+            <label for="department">DEPARTMENT:</label>
+            <input id="department" type="text" placeholder="Enter the Department">
+        </div>
+        <div class="form-group">
+            <label for="basicSalary">Basic Salary:</label>
+            <input id="basicSalary" type="number" placeholder="Enter Basic Salary">
+        </div>
+        <div class="form-group">
+            <label for="da">DA (Dearness Allowance):</label>
+            <input id="da" type="number" placeholder="Enter DA" value="0.10">
+        </div>
+        <div class="form-group">
+            <label for="hra">HRA (House Rent Allowance):</label>
+            <input id="hra" type="number" placeholder="Enter HRA" value="0.20">
+        </div>
+        <div class="form-group">
+            <label for="deductions">Deductions:</label>
+            <input id="deductions" type="number" placeholder="Enter Deductions" value="0.12">
+        </div>
+        <div class="form-group">
+            <button onclick="calculateTotalSalary()">Calculate Total Salary</button>
+            <button id="homeButton" onclick=" goToHomePage()" type="Exit" style="background-color: red;">Home</button>
+        </div>
+        <div class="result">
+            <p id="daResult"></p>
+            <p id="hraResult"></p>
+            <p id="deductionResult"></p>
+            <p id="grossSalaryResult"></p>
+            <p id="netSalaryResult"></p>
+            <p id="totalSalaryResult"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateTotalSalary() {
+            let basicSalary = parseFloat(document.getElementById("basicSalary").value);
+            let daPercentage = parseFloat(document.getElementById("da").value);
+            let hraPercentage = parseFloat(document.getElementById("hra").value);
+            let deductionsPercentage = parseFloat(document.getElementById("deductions").value);
+
+            let DA = daPercentage * basicSalary;
+            let HRA = hraPercentage * basicSalary;
+            let PF = deductionsPercentage * basicSalary;
+
+            let grossSalary = basicSalary + DA + HRA;
+            let netSalary = grossSalary - PF;
+
+            document.getElementById('daResult').textContent = "DA: " + DA.toFixed(2);
+            document.getElementById('hraResult').textContent = "HRA: " + HRA.toFixed(2);
+            document.getElementById('deductionResult').textContent = "Deductions: " + PF.toFixed(2);
+            document.getElementById('grossSalaryResult').textContent = "Gross Salary: " + grossSalary.toFixed(2);
+            document.getElementById('netSalaryResult').textContent = "Net Salary: " + netSalary.toFixed(2);
+            document.getElementById('totalSalaryResult').textContent = "Total Salary: " + netSalary.toFixed(2);
+        };
+        function goToHomePage() {
+            window.location.href = 'home.html'; // Replace 'home.html' with the actual home page URL
+        }
+
+        // Add event listener to the button
+        document.getElementById('homeButton').addEventListener('click', goToHomePage);
+    </script>
+</body>
+</html>

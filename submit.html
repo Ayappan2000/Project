@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submitted Employee Details</title>
+    <link rel="icon" href="https://img.pikbest.com/origin/09/22/15/304pIkbEsTTdY.png!w700wp">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Submitted Employee Details</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Number</th>
+                <th>Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Contact</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Country</th>
+                <th>State</th>
+                <th>Designation</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody id="detailsBody">
+            <!-- Details will be populated here -->
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const detailsBody = document.getElementById('detailsBody');
+            const row = document.createElement('tr');
+
+            params.forEach((value, key) => {
+                const cell = document.createElement('td');
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+
+            detailsBody.appendChild(row);
+        });
+    </script>
+</body>
+</html>

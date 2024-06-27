@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <link rel="icon" href="https://img.pikbest.com/origin/09/22/15/304pIkbEsTTdY.png!w700wp">
+    <style>
+        body {
+            background-image: url('https://via.placeholder.com/150'); /* Placeholder image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8); /* Light transparent background */
+            border-radius: 20px;
+            color: #333;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1 1 45%;
+            margin: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .button-group {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            background-color: #4c51af;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 10px 20px;
+        }
+
+        .button-group button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            align-items: flex-end;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Employee Details</h2>
+
+        <form id="employeeForm">
+            <div class="form-group">
+                <label for="id">ID Number:</label>
+                <input type="text" id="id" name="id" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact:</label>
+                <input type="tel" id="contact" name="contact" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <select id="country" name="country" required>
+                    <option value="India">India</option>
+                    <option value="Australia">Australia</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" required>
+            </div>
+            <div class="form-group">
+                <label for="designation">Designation:</label>
+                <input type="text" id="designation" name="designation" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" rows="3" required></textarea>
+            </div>
+
+            <div class="button-group">
+                <button type="button" id="addButton" style="background-color: blue;">ADD</button>
+                <button type="reset" style="background-color: red;">Clear</button>
+                <button type="submit" style="background-color: green;">Submit</button>
+                <button type="button" id="populateButton" style="background-color: purple;">Get Data</button>
+                <button type="exit" id="homeButton" onclick="goToHomePage()">Home</button>
+            </div>
+        </form>
+
+        <table id="employeeTable">
+            <tbody id="employeeTableBody">
+                <!-- Employee details will be added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('addButton').addEventListener('click', function() {
+            const form = document.getElementById('employeeForm');
+            const tableBody = document.getElementById('employeeTableBody');
+
+            const row = document.createElement('tr');
+
+            const formData = new FormData(form);
+            formData.forEach((value, key) => {
+                const cell = document.createElement('td');
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+
+        });
+
+        document.getElementById('employeeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const entries = Object.fromEntries(formData.entries());
+            const params = new URLSearchParams(entries);
+
+            window.open('submit.html?' + params.toString(), '_blank');
+        });
+
+        document.getElementById('populateButton').addEventListener('click', function() {
+            document.getElementById('id').value = '211420105305';
+            document.getElementById('name').value = 'AYAPPAN';
+            document.getElementById('dob').value = '2000-03-12';
+            document.getElementById('gender').value = 'male';
+            document.getElementById('contact').value = '7708211189';
+            document.getElementById('age').value = '24';
+            document.getElementById('email').value = 'steelayappan@gmail.com';
+            document.getElementById('country').value = 'India';
+            document.getElementById('state').value = 'TamilNadu';
+            document.getElementById('designation').value = 'Frontend_Developer';
+            document.getElementById('address').value = 'No:115A, Bells road, Triplicane, Chennai-05';
+        });
+        function goToHomePage() {
+            window.location.href = 'home.html'; // Replace 'home.html' with the actual home page URL
+        }
+
+        // Add event listener to the button
+        document.getElementById('homeButton').addEventListener('click', goToHomePage);
+    </script>
+</body>
+</html>

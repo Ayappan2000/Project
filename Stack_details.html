@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="https://img.pikbest.com/origin/09/22/15/304pIkbEsTTdY.png!w700wp">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20221004/pngtree-fire-sparks-background-with-embers-flying-free-jpg-and-psd-image_1466857.jpg");
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.5); /* Added transparency for better readability */
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            width: 750px;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]::placeholder {
+            color: #aaa;
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus {
+            border-color: #66afe9;
+            outline: none;
+            box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:nth-child(1) {
+            background-color: gray;
+        }
+
+        button:nth-child(2) {
+            background-color: green;
+        }
+        button:nth-child(3) {
+            background-color: brown;
+        }
+        button:nth-child(4) {
+            background-color: blueviolet;
+        }
+        button:nth-child(5){
+            background-color: red;
+        }
+
+        .output-container {
+            margin-top: 20px;
+            background-color: #fff;
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>STOCK DETAILS</h1>
+        <div class="form-grid">
+            <div class="form">
+                <label for="id">ID No:</label>
+                <input id="id" type="text" placeholder="Enter the id">
+            </div>
+            <div class="form">
+                <label for="name">Product Name:</label>
+                <input id="name" type="text" placeholder="Enter the Name">
+            </div>
+            <div class="form">
+                <label for="quantity">Quantity:</label>
+                <input id="quantity" type="text" placeholder="Enter the quantity items">
+            </div>
+            <div class="form">
+                <label for="stock">Out of Stock:</label>
+                <input id="stock" type="text" placeholder="Enter the stock">
+            </div>
+            <div class="form">
+                <label for="available">Available:</label>
+                <input id="available" type="text" placeholder="Available items">
+            </div>
+            <div class="form">
+                <label for="manufacture">Manufactured Date:</label>
+                <input id="manufacture" type="date" placeholder="Manufacture date">
+            </div>
+            <div class="form">
+                <label for="expired">Expired Date:</label>
+                <input id="expired" type="text" placeholder="Expired Date">
+            </div>
+            <div class="form">
+                <label for="mrp">MRP:</label>
+                <input id="mrp" type="text" placeholder="MRP price">
+            </div>
+            <div class="form">
+                <label for="cost">Cost:</label>
+                <input id="cost" type="text" placeholder="Cost of price">
+            </div>
+        </div>
+        <div class="button-container">
+            <button onclick="clearForm()">Clear</button>
+            <button onclick="submitForm()">Submit</button>
+            <button onclick="printBill()">Print</button>
+            <button onclick="getData()">Get Data</button>
+            <button onclick="goToHomePage()" id="homeButton" style="background: red;">Home</button>
+        </div>
+        <div class="output-container" id="outputContainer">
+            <h2>Submitted Data</h2>
+            <div id="output"></div>
+        </div>
+    </div>
+
+    <script>
+        function clearForm() {
+            document.querySelectorAll('.form input').forEach(input => input.value = '');
+        }
+
+        function submitForm() {
+            const id = document.getElementById('id').value;
+            const name = document.getElementById('name').value;
+            const quantity = document.getElementById('quantity').value;
+            const stock = document.getElementById('stock').value;
+            const available = document.getElementById('available').value;
+            const manufacture = document.getElementById('manufacture').value;
+            const expired = document.getElementById('expired').value;
+            const mrp = document.getElementById('mrp').value;
+            const cost = document.getElementById('cost').value;
+
+            const outputContainer = document.getElementById('outputContainer');
+            const output = document.getElementById('output');
+            
+            output.innerHTML = `
+                <p>ID No: ${id}</p>
+                <p>Name: ${name}</p>
+                <p>Quantity: ${quantity}</p>
+                <p>Out of Stock: ${stock}</p>
+                <p>Available: ${available}</p>
+                <p>Manufactured Date: ${manufacture}</p>
+                <p>Expired Date: ${expired}</p>
+                <p>MRP: ${mrp}</p>
+                <p>Cost: ${cost}</p>
+            `;
+
+            outputContainer.style.display = 'block';
+        }
+
+        function printBill() {
+            window.print();
+        }
+
+        function getData() {
+            document.getElementById('id').value = '12345';
+            document.getElementById('name').value = 'SUMSUNG';
+            document.getElementById('quantity').value = '50';
+            document.getElementById('stock').value = 'No';
+            document.getElementById('available').value = '45';
+            document.getElementById('manufacture').value = '2023-01-01';
+            document.getElementById('expired').value = '2025-01-01';
+            document.getElementById('mrp').value = '100';
+            document.getElementById('cost').value = '90';
+        }
+
+        function goToHomePage() {
+            window.location.href = 'home.html'; // Replace 'home.html' with the actual home page URL
+        }
+
+        // Add event listener to the button
+        document.getElementById('homeButton').addEventListener('click', goToHomePage);
+    </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details</title>
+  <link rel="icon" href="https://img.pikbest.com/origin/09/22/15/304pIkbEsTTdY.png!w700wp">
+  <style>
+    h1 {
+  width: 100%;
+  background-color: tomato;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+.stack {
+  width: 20%;
+  float: left;
+  margin-right: 1.5%;
+}
+.stack:last-child {
+  margin-right: 0;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6-4VLHbTXdVHUB4Gx5_JFZwnqrjR_vbLS5g&usqp=CAU") ;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.container {
+  background: transparent;
+  padding: 40px;
+  color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 80%;
+}
+.form {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: .5px;
+}
+.form label {
+  flex: 1;
+  margin-right: 10px;
+}
+.form input {
+  flex: 2;
+  padding: 5px;
+}
+
+.stack label,
+.stack input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.result {
+  clear: both;
+  margin-top: 20px;
+}
+.result label,
+.result input {
+  display: block;
+  margin-bottom: 10px;
+  width: 100%;
+}
+button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  margin-top: 10px;
+  color: black;
+}
+  </style>
+  <script>
+    // Function to calculate the price for each item
+    function calculatePrice(index) {
+      const quantityInput = document.getElementById(`quantity${index}`);
+      const quantityPriceInput = document.getElementById(`QuantityPrice${index}`);
+      const priceInput = document.getElementById(`price${index}`);
+
+      const quantity = parseFloat(quantityInput.value);
+      const quantityPrice = parseFloat(quantityPriceInput.value);
+
+      // Check if both quantity and quantityPrice are valid numbers
+      if (!isNaN(quantity) && !isNaN(quantityPrice) && quantity >= 0 && quantityPrice >= 0) {
+        const price = quantity * quantityPrice;
+        priceInput.value = price.toFixed(2); // Fixing to 2 decimal places
+        calculateTotalPrice();
+      } else {
+        priceInput.value = ''; // Clear the price input if inputs are invalid
+      }
+    }
+
+    // Function to calculate the total price including GST
+    function calculateTotalPrice() {
+      let total = 0;
+      for (let i = 1; i <= 10; i++) {
+        const priceInput = document.getElementById(`price${i}`);
+        const price = parseFloat(priceInput.value) || 0; // Default to 0 if price is not a number
+        total += price;
+      }
+      const gstInput = document.getElementById('gst');
+      const gst = parseFloat(gstInput.value) || 0; // Default to 0 if GST is not a number
+      const totalPrice = total + (total * (gst / 100));
+      document.getElementById('total').value = totalPrice.toFixed(2); // Fixing to 2 decimal places
+    }
+
+    // Clear input fields
+    function clearFields() {
+      const inputs = document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
+      inputs.forEach(input => input.value = '');
+      document.getElementById('gst').value = '';
+      document.getElementById('total').value = '';
+      document.getElementById('bill').style.display = 'none'; // Hide the bill section
+    }
+
+    // Function to print the bill
+    function printBill() {
+      const name = document.getElementById('name').value;
+      const id = document.getElementById('id').value;
+      const phone = document.getElementById('phone').value;
+      const date = document.getElementById('date').value;
+      const gst = document.getElementById('gst').value;
+      const total = document.getElementById('total').value;
+
+      let billContent = `
+        <h2>JPA Super Marketbr</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>ID Number:</strong> ${id}</p>
+        <p><strong>Contact No:</strong> ${phone}</p>
+        <p><strong>Date:</strong> ${date}</p>
+        <table border="1">
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Quantity Price</th>
+            <th>Price</th>
+          </tr>`;
+
+      for (let i = 1; i <= 10; i++) {
+        const item = document.getElementById(`item${i}`).value;
+        const quantity = document.getElementById(`quantity${i}`).value;
+        const quantityPrice = document.getElementById(`QuantityPrice${i}`).value;
+        const price = document.getElementById(`price${i}`).value;
+        
+        if (item && quantity && quantityPrice && price) {
+          billContent += `
+            <tr>
+              <td>${item}</td>
+              <td>${quantity}</td>
+              <td>${quantityPrice}</td>
+              <td>${price}</td>
+            </tr>`;
+        }
+      }
+
+      billContent += `
+          <tr>
+            <td colspan="3"><strong>GST:</strong></td>
+            <td>${gst}%</td>
+          </tr>
+          <tr>
+            <td colspan="3"><strong>Total Price:</strong></td>
+            <td>${total}</td>
+          </tr>
+        </table>`;
+
+      document.getElementById('bill').innerHTML = billContent;
+      document.getElementById('bill').style.display = 'block'; // Show the bill section
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('add').addEventListener('click', () => {
+        alert('Add button clicked');
+      });
+
+      document.getElementById('clear').addEventListener('click', () => {
+        clearFields();
+      });
+
+      document.getElementById('printbill').addEventListener('click', () => {
+        printBill();
+      });
+      function goToHomePage() {
+            window.location.href = 'home.html'; // Replace 'home.html' with the actual home page URL
+        }
+
+        // Add event listener to the button
+        document.getElementById('homeButton').addEventListener('click', goToHomePage);
+
+    });
+  </script>
+</head>
+<body>
+    <div class="container">
+      <h1>Ayappan SuperMarket</h1>
+  
+      <div class="form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Enter the Name">
+        <label for="id">ID Number:</label>
+        <input type="number" id="id" placeholder="Enter Your ID">
+      </div>
+      <div class="form">
+        <label for="date">Date:</label>
+        <input type="date" id="date">
+        <label for="phone">Contact No:</label>
+        <input type="number" id="phone" placeholder="Mobile Number">
+      </div>
+  
+      <div class="stack">
+        <label for="item1">Item:</label>
+        <input type="text" id="item1" placeholder="Item 1">
+        <input type="text" id="item2" placeholder="Item 2">
+        <input type="text" id="item3" placeholder="Item 3">
+        <input type="text" id="item4" placeholder="Item 4">
+        <input type="text" id="item5" placeholder="Item 5">
+        <input type="text" id="item6" placeholder="Item 6">
+        <input type="text" id="item7" placeholder="Item 7">
+        <input type="text" id="item8" placeholder="Item 8">
+        <input type="text" id="item9" placeholder="Item 9">
+        <input type="text" id="item10" placeholder="Item 10">
+      </div>
+  
+      <div class="stack">
+        <label for="quantity1">Quantity:</label>
+        <input type="number" id="quantity1" placeholder="Quantity 1" min="0" oninput="calculatePrice(1)">
+        <input type="number" id="quantity2" placeholder="Quantity 2" min="0" oninput="calculatePrice(2)">
+        <input type="number" id="quantity3" placeholder="Quantity 3" min="0" oninput="calculatePrice(3)">
+        <input type="number" id="quantity4" placeholder="Quantity 4" min="0" oninput="calculatePrice(4)">
+        <input type="number" id="quantity5" placeholder="Quantity 5" min="0" oninput="calculatePrice(5)">
+        <input type="number" id="quantity6" placeholder="Quantity 6" min="0" oninput="calculatePrice(6)">
+        <input type="number" id="quantity7" placeholder="Quantity 7" min="0" oninput="calculatePrice(7)">
+        <input type="number" id="quantity8" placeholder="Quantity 8" min="0" oninput="calculatePrice(8)">
+        <input type="number" id="quantity9" placeholder="Quantity 9" min="0" oninput="calculatePrice(9)">
+        <input type="number" id="quantity10" placeholder="Quantity 10" min="0" oninput="calculatePrice(10)">
+      </div>
+  
+      <div class="stack">
+        <label for="QuantityPrice1">Quantity Price:</label>
+        <input type="number" id="QuantityPrice1" placeholder="Quantity Price 1" min="0" oninput="calculatePrice(1)">
+        <input type="number" id="QuantityPrice2" placeholder="Quantity Price 2" min="0" oninput="calculatePrice(2)">
+        <input type="number" id="QuantityPrice3" placeholder="Quantity Price 3" min="0" oninput="calculatePrice(3)">
+        <input type="number" id="QuantityPrice4" placeholder="Quantity Price 4" min="0" oninput="calculatePrice(4)">
+        <input type="number" id="QuantityPrice5" placeholder="Quantity Price 5" min="0" oninput="calculatePrice(5)">
+        <input type="number" id="QuantityPrice6" placeholder="Quantity Price 6" min="0" oninput="calculatePrice(6)">
+        <input type="number" id="QuantityPrice7" placeholder="Quantity Price 7" min="0" oninput="calculatePrice(7)">
+        <input type="number" id="QuantityPrice8" placeholder="Quantity Price 8" min="0" oninput="calculatePrice(8)">
+        <input type="number" id="QuantityPrice9" placeholder="Quantity Price 9" min="0" oninput="calculatePrice(9)">
+        <input type="number" id="QuantityPrice10" placeholder="Quantity Price 10" min="0" oninput="calculatePrice(10)">
+      </div>
+  
+      <div class="stack">
+        <label for="price1">Price:</label>
+        <input type="number" id="price1" placeholder="Price 1" readonly>
+        <input type="number" id="price2" placeholder="Price 2" readonly>
+        <input type="number" id="price3" placeholder="Price 3" readonly>
+        <input type="number" id="price4" placeholder="Price 4" readonly>
+        <input type="number" id="price5" placeholder="Price 5" readonly>
+        <input type="number" id="price6" placeholder="Price 6" readonly>
+        <input type="number" id="price7" placeholder="Price 7" readonly>
+        <input type="number" id="price8" placeholder="Price 8" readonly>
+        <input type="number" id="price9" placeholder="Price 9" readonly>
+        <input type="number" id="price10" placeholder="Price 10" readonly>
+      </div>
+      <div class="result">
+        <label for="gst">GST:</label>
+        <input type="number" id="gst" placeholder="GST" min="0" value="10" oninput="calculateTotalPrice()">
+        <label for="total">Total Price:</label>
+        <input type="number" id="total" placeholder="Total Price" readonly>
+        <br>
+        <button id="add" style="background-color: blue">Add</button>
+        <button onclick="clearFields()" id="clear" style="background: goldenrod">Clear</button>   
+        <button id="printbill" style="background: green;">Print Bill</button>
+        <button onclick="goToHomePage()" id="homeButton" style="background: red;">Home</button>
+      </div>
+  
+      <!-- Hidden section for bill details -->
+      <div id="bill" style="display: none;"></div>
+    </div>
+  </body>
+</html>  
